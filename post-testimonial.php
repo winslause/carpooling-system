@@ -33,7 +33,7 @@ $error="Something went wrong. Please try again";
 <html lang="en">
 <head>
 
-<title>Car Rental Portal |Post testimonial</title>
+<title>Post testimonial</title>
 <!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <!--Custome Style -->

@@ -31,7 +31,7 @@ $error="Something went wrong. Please try again";
 <html lang="en">
 <head>
 
-<title>Car Rental|| Contact Us Page</title>
+<title>Contact Us Page</title>
 <!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <!--Custome Style -->

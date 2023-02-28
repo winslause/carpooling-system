@@ -55,11 +55,11 @@ error_reporting(0);
   <div class="container">
     <div class="page-header_wrap">
       <div class="page-heading">
-        <h1>Car Listing</h1>
+        <h1>Available vehicles along your route</h1>
       </div>
       <ul class="coustom-breadcrumb">
         <li><a href="#">Home</a></li>
-        <li>Car Listing</li>
+        <li>Available Cars</li>
       </ul>
     </div>
   </div>
@@ -77,12 +77,12 @@ error_reporting(0);
           <div class="sorting-count">
 <?php 
 //Query for Listing count
-$brand=$_POST['brand'];
-$fueltype=$_POST['fueltype'];
-$sql = "SELECT id from tblvehicles where tblvehicles.VehiclesBrand=:brand and tblvehicles.FuelType=:fueltype";
+$routename=$_POST['routename'];
+$pickuptime=$_POST['pickuptime'];
+$sql = "SELECT id from tblvehicles where tblvehicles.routename=:routename and tblvehicles.picktime=:pickuptime";
 $query = $dbh -> prepare($sql);
-$query -> bindParam(':brand',$brand, PDO::PARAM_STR);
-$query -> bindParam(':fueltype',$fueltype, PDO::PARAM_STR);
+$query -> bindParam(':routename',$routename, PDO::PARAM_STR);
+$query -> bindParam(':pickuptime',$pickuptime, PDO::PARAM_STR);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
 $cnt=$query->rowCount();
@@ -93,10 +93,10 @@ $cnt=$query->rowCount();
 
 <?php 
 
-$sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand where tblvehicles.VehiclesBrand=:brand and tblvehicles.FuelType=:fueltype";
+$sql = "SELECT tblvehicles.*,tblroutes.routeName,tblroutes.id as bid  from tblvehicles join tblroutes on tblroutes.id=tblvehicles.routename where tblvehicles.routename=:routename and tblvehicles.picktime=:pickuptime";
 $query = $dbh -> prepare($sql);
-$query -> bindParam(':brand',$brand, PDO::PARAM_STR);
-$query -> bindParam(':fueltype',$fueltype, PDO::PARAM_STR);
+$query -> bindParam(':routename',$routename, PDO::PARAM_STR);
+$query -> bindParam(':pickuptime',$pickuptime, PDO::PARAM_STR);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
 $cnt=1;
@@ -105,15 +105,15 @@ if($query->rowCount() > 0)
 foreach($results as $result)
 {  ?>
         <div class="product-listing-m gray-bg">
-          <div class="product-listing-img"><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1);?>" class="img-responsive" alt="Image" /> </a> 
+          <div class="product-listing-img"><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage);?>" class="img-responsive" alt="Image" /> </a> 
           </div>
           <div class="product-listing-content">
-            <h5><a href="vehical-details.php?vhid=<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->BrandName);?> , <?php echo htmlentities($result->VehiclesTitle);?></a></h5>
-            <p class="list-price">SH.<?php echo htmlentities($result->PricePerDay);?> Per Day</p>
+            <h5><a href="vehical-details.php?vhid=<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->routeName);?> , <?php echo htmlentities($result->VehicleTitle);?></a></h5>
+            <p class="list-price">SH.<?php echo htmlentities($result->price);?> Price</p>
             <ul>
-              <li><i class="fa fa-user" aria-hidden="true"></i><?php echo htmlentities($result->SeatingCapacity);?> seats</li>
-              <li><i class="fa fa-calendar" aria-hidden="true"></i><?php echo htmlentities($result->ModelYear);?> model</li>
-              <li><i class="fa fa-car" aria-hidden="true"></i><?php echo htmlentities($result->FuelType);?></li>
+              <li><i class="fa fa-user" aria-hidden="true"></i><?php echo htmlentities($result->seats);?> Seats</li>
+              <li><i class="fa fa-calendar" aria-hidden="true"></i><?php echo htmlentities($result->freeseats);?> Available Seats</li>
+              <li><i class="fa fa-car" aria-hidden="true"></i><?php echo htmlentities($result->picktime);?> Pickup Time</li>
             </ul>
             <a href="vehical-details.php?vhid=<?php echo htmlentities($result->id);?>" class="btn">View Details <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
           </div>
@@ -131,9 +131,9 @@ foreach($results as $result)
             <form action="#" method="get">
               <div class="form-group select">
                 <select class="form-control">
-                  <option>Select Brand</option>
+                  <option>Select Route</option>
 
-                  <?php $sql = "SELECT * from  tblbrands ";
+                  <?php $sql = "SELECT * from  tblroutes ";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -142,10 +142,10 @@ if($query->rowCount() > 0)
 {
 foreach($results as $result)
 {       ?>  
-<option value="<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->BrandName);?></option>
+<option value="<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->routeName);?></option>
 <?php }} ?>
                  
-                </select>
+                <!-- </select>
               </div>
               <div class="form-group select">
                 <select class="form-control">
@@ -153,8 +153,8 @@ foreach($results as $result)
 <option value="Petrol">Petrol</option>
 <option value="Diesel">Diesel</option>
 <option value="CNG">CNG</option>
-                </select>
-              </div>
+                </select> -->
+              <!-- </div> -->
              
               <div class="form-group">
                 <button type="submit" class="btn btn-block"><i class="fa fa-search" aria-hidden="true"></i> Search Car</button>
@@ -169,7 +169,7 @@ foreach($results as $result)
           </div>
           <div class="recent_addedcars">
             <ul>
-<?php $sql = "SELECT tblvehicles.*,tblbrands.BrandName,tblbrands.id as bid  from tblvehicles join tblbrands on tblbrands.id=tblvehicles.VehiclesBrand order by id desc limit 4";
+<?php $sql = "SELECT tblvehicles.*,tblroutes.routeName,tblroutes.id as bid  from tblvehicles join tblroutes on tblroutes.id=tblvehicles.routename order by id desc limit 4";
 $query = $dbh -> prepare($sql);
 $query->execute();
 $results=$query->fetchAll(PDO::FETCH_OBJ);
@@ -180,9 +180,9 @@ foreach($results as $result)
 {  ?>
 
               <li class="gray-bg">
-                <div class="recent_post_img"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->id);?>"><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1);?>" alt="image"></a> </div>
-                <div class="recent_post_title"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->BrandName);?> , <?php echo htmlentities($result->VehiclesTitle);?></a>
-                  <p class="widget_price">SH.<?php echo htmlentities($result->PricePerDay);?> Per Day</p>
+                <div class="recent_post_img"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->id);?>"><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage);?>" alt="image"></a> </div>
+                <div class="recent_post_title"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->id);?>"><?php echo htmlentities($result->routename);?> , <?php echo htmlentities($result->VehicleTitle);?></a>
+                  <p class="widget_price">SH.<?php echo htmlentities($result->price);?> Price</p>
                 </div>
               </li>
               <?php }} ?>

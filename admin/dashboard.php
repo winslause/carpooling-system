@@ -19,7 +19,7 @@ else{
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal | Admin Dashboard</title>
+	<title> Admin Dashboard</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -122,7 +122,7 @@ $results3=$query3->fetchAll(PDO::FETCH_OBJ);
 $brands=$query3->rowCount();
 ?>												
 													<div class="stat-panel-number h1 "><?php echo htmlentities($brands);?></div>
-													<div class="stat-panel-title text-uppercase">Listed Brands</div>
+													<div class="stat-panel-title text-uppercase">Listed Routes</div>
 												</div>
 											</div>
 											<a href="manage-brands.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>

@@ -10,12 +10,12 @@ else{
 
 if(isset($_POST['update']))
 {
-$vimage1=$_FILES["img1"]["name"];
+$vimage=$_FILES["img1"]["name"];
 $id=intval($_GET['imgid']);
 move_uploaded_file($_FILES["img1"]["tmp_name"],"img/vehicleimages/".$_FILES["img1"]["name"]);
 $sql="update tblvehicles set Vimage1=:vimage1 where id=:id";
 $query = $dbh->prepare($sql);
-$query->bindParam(':vimage1',$vimage1,PDO::PARAM_STR);
+$query->bindParam(':vimage',$vimage,PDO::PARAM_STR);
 $query->bindParam(':id',$id,PDO::PARAM_STR);
 $query->execute();
 
@@ -37,7 +37,7 @@ $msg="Image updated successfully";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal | Admin Update Image 1</title>
+	<title>Admin Update Image 1</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
